@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    {% comment %} <meta charset="utf-8"> {% endcomment %}
+    {% comment %} <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> {% endcomment %}
+
+    <title> The Railways</title>
+   
+    <link rel="stylesheet" href="{% static 'style1.css' %}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+   <link rel="shortcut icon" href="{% static '/logo99.png' %}" type="image/png">
+</head>
+<body>
+    {% block body %} {% endblock body%}
+    <div class="overlay">
+
+    </div>
+    <div class="main">
+    
+        <div class="navbar">
+            <div class="icon">
+                <img class="logo" src="{% static '/logo99.png' %}" alt="">
+                <h2 class="logofont">TGC'S</h2>
+            </div>
+
+            <div class="menu">
+                <ul class="nav__item">
+                    <li><a href="/homebtn.html">HOME</a></li>
+                    <li><a href="/contact">CONTACT</a></li>
+                </ul>
+            </div>
+        </div> 
+    <div class="ultramain">
+        <div class="main__container">
+            <div class="main__heading">
+                <div class="heading__text">
+                    <h2>INDIAN RAILWAY</h2>
+                </div>
+                <div class="main__items">
+                    <div class="items item1">
+                        <p>Safety</p>
+                    </div>
+                    <div class="items item2">
+                        <p>Security</p>
+                    </div>
+                    <div class="items item3">
+                        <p>Punctuality</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="information">
+                <div class="select__menu">
+                    <section class="jatin" id="language-selection">
+                        <label for="language-select">Select Language:</label>
+                        <select id="language-select">
+                            <option value="en">English</option>
+                            <option value="hi">हिंदी</option>
+                            <option value="bn">தமிழ்</option>
+                            <option value="gs">ਪੰਜਾਬੀ</option>
+                            <option value="gs">मराठी</option>
+                            <option value="gs">राजस्थानी</option>
+                            <option value="gs">اردو</option>
+                            <option value="gs">française</option>
+                            <option value="gs">española</option>
+            
+                            <!-- Add more language options as needed -->
+                        </select>
+                    </section>
+                    <section class="jatin" id=" station-selection">
+                        <label for="station-selection">Select Station:</label>
+                        <select id="station-select">
+                            <option value="en">New Delhi Railway Station</option>
+                            <option value="fr">Mumbai(Chhatrapati Shivaji Maharaj Terminus)</option>
+                            <option value="es">Howrah Junction (Kolkata)</option>
+                            <option value="gs">Chennai Central</option>
+                            <option value="gs">Jaipur Junction</option>
+                            <option value="gs">Ahmedabad Railway Station</option>
+                            <option value="gs">Indian Railways' South Western Railway(SWR)</option>
+                            <option value="gs">Bhopal Junction</option>
+                            <option value="gs">Varanasi Junction</option>
+                            <option value="gs">Agra Cantt (Agra Central) Railway Station</option>
+            
+                            <!-- Add more language options as needed -->
+                        </select>
+                    </section>
+                    <section class="jatin" id="state-selection">
+                        <label for="station-selection">Select State:</label>
+                        <select id="station-select">
+                            <option value="en">Rajasthan</option>
+                            <option value="fr">Assam</option>
+                            <option value="es">Bihar</option>
+                            <option value="gs">Chhattisgarh</option>
+                            <option value="gs">Goa</option>
+                            <option value="gs">Gujarat</option>
+                            <option value="gs">Haryana</option>
+                            <option value="gs">Andhra Pradesh</option>
+                            <option value="gs">Arunachal Pradesh</option>
+                            <option value="gs">West Bengal</option>
+            
+                            <!-- Add more language options as needed -->
+                        </select>
+                    </section>
+
+                </div>
+   
+            </div>
+
+            
+            <button id="travel">Let's Travel</button>
+        </div>
+        <div class="textbox">
+ 
+                <div class="icons">
+                   <button id="sayAgain"> <i class="ri-volume-up-fill speak"></i></button>
+                    <button><i class="ri-file-text-line text"></i></button>
+                </div>
+                <div id="textContainer" class="description">
+                    Text will be place here
+                </div>
+            </div>
+        <script>
+            // let utterance = new SpeechSynthesisUtterance("Hello World");
+            // speechSynthesis.speak(utterance);
+            var result = "দয়া করে মনে রাখবেন চেন্নাই সেন্ট্রাল থেকে নাগপুর ভোপাল হয়ে 12621 তামিলনাড়ু এক্সপ্রেস 4 নং প্ল্যাটফর্মে আসছে।"
+            var langs = ""
+
+            document.querySelector("#travel").onclick = () => {
+                console.log("request started")
+                var req = {
+                    lang: document.querySelector("#language-select").value
+                }
+                fetch("/text", {
+                    body: JSON.stringify(req),
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(res => res.text())
+                .then(data => {
+                    document.querySelector("#textContainer").innerHTML = data
+                    result = data
+                    langs = req.lang
+                })
+            }
+
+            document.querySelector("#sayAgain").onclick = () => {
+                let audio = new Audio("/speech?lang="+ langs +"&text="+result)
+                audio.play()
+                // fetch("/speech").then(res => res.body)
+                // .then(data => {
+                //     let audio = new Audio(data)
+                //     audio.play()
+                //     // console.log(data)
+                // })
+            }
+        </script>
+</body>
+</html>
